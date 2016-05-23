@@ -1,0 +1,13 @@
+body {
+  background: lightblue;
+}
+
+.board-flex-container {
+  display: flex;
+  flex-direction: column;
+  /*border: 1px solid black;*/
+}
+
+.row1 {
+  /*height: 10px;*/
+}
