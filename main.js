@@ -44,8 +44,11 @@ window.onload = function(){
     for (var i = 0; i < colLength; i += 1) {
       populatePossibleNums();
       //if the row does not get set correctly, try setting it again:
-      if (!populateGameRow(i)) {
-        populateGameRow(i);
+      var rowSet = false;
+      rowSet = populateGameRow(i);
+      while (!rowSet) {
+        populatePossibleNums();
+        rowSet = populateGameRow(i);
       }
     }
   }
