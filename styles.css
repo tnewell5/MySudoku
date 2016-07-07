@@ -8,6 +8,10 @@ body {
   /*border: 1px solid black;*/
 }
 
-.row1 {
-  /*height: 10px;*/
+.tile {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 1px solid black;
+  text-align: center;
 }
