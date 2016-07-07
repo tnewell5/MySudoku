@@ -1,12 +1,4 @@
 window.onload = function(){
-  // possibleNums = [1..rowlength]
-  // populate row 0 with a random number from possibleNums from left to right in order
-  // randomNum function will take in possibleNums and derive num based on possibleNums length
-  // randomNum function will choose a random position in possibleNums
-  // check if num may be placed by checking row and col to see if num already exists (invalid placement)
-  // if placement is valid, place num on board and remove it from possibleNums
-  // otherwise, find another random num
-  // once possibleNums is empty, replenish it and start populating next row
 
   var possibleNums = [];
   var rowLength = 3;
@@ -14,7 +6,6 @@ window.onload = function(){
   var gameBoard = [];
 
   function gameStart() {
-    //designGameBoard();
     populateGameBoard();
     drawBoard();
   }
@@ -51,6 +42,7 @@ window.onload = function(){
         rowSet = populateGameRow(i);
       }
     }
+    console.log('gameBoard: ', gameBoard);
   }
 
   function populateGameRow(rowNum) {
@@ -65,14 +57,11 @@ window.onload = function(){
           gameBoard[rowNum][i] = numToPlace;
           possibleNums.splice(numToPlaceIndex, 1);
           placed = true;
-          //console.log('num placed');
         }
         else {
           if (placementAttempts > 15) {
             return rowSet;
-            console.log('will need to reset row');
           } else {
-            //console.log('looking for another placement');
             possibleNums.splice(numToPlaceIndex, 1);
             numToPlaceIndex = randomNumIndex();
             numToPlace = possibleNums[numToPlaceIndex];
@@ -84,7 +73,6 @@ window.onload = function(){
     }
     if (gameBoard[rowNum][colLength - 1]) {
       rowSet = true;
-      console.log('set rowSet to true');
     }
     return rowSet;
   }
@@ -106,10 +94,17 @@ window.onload = function(){
   }
 
   function drawRow(rowNum, gameBoard) {
-    var row = document.querySelector('.row' + rowNum);
-    for (var i = 0; i < 3; i += 1) {
+    //var row = document.querySelector('.row' + rowNum);
+    var boardContainer = document.querySelector('.board-flex-container');
+    for (var i = 0; i < rowLength; i += 1) {
+      var row = document.createElement('div');
+      row.classList.add('row' + i);
+      boardContainer.appendChild(row);
+    }
+
+    for (var j = 0; j < colLength; j += 1) {
       var tile = document.createElement('span');
-      tile.innerHTML = gameBoard[rowNum][i];
+      tile.innerHTML = gameBoard[rowNum][j];
       tile.classList.add('tile');
       row.appendChild(tile);
     }
