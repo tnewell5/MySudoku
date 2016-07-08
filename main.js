@@ -1,6 +1,5 @@
 window.onload = function(){
-
-  var possibleNums = [];
+var possibleNums = [];
   var rowLength = 3;
   var colLength = rowLength;
   var gameBoard = [];
