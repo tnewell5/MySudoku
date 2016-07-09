@@ -1,27 +1,90 @@
+//set the board in order one tile at a time
+//using numbers [1..length] in random order
+//try number, if valid move, set and move to next tile with new set of numbers
+//if invalid move, remove number from array and try next number
+//if used up all numbers and wasn't able to set on tile, back out prior tile
+//reset prior tile but first remove that popped number from its valid moves
+//so first set tile [0,0], then tile [0,1], etc
+
 window.onload = function(){
   var possibleNums = [];
-  var boardLength = 4;
+  var boardLength = 5;
   var gameBoard = [];
 
   function gameStart() {
-    populateGameBoard();
+    designGameBoard();
+    setBoard();
     drawBoard();
-  }
-
-  function validPlacement(num, rowIndex, colIndex) {
-    var valid = true;
-    for (var i = 0; i < boardLength; i += 1) {
-      if (gameBoard[rowIndex][i] === num || gameBoard[i][colIndex] === num) {
-        valid = false;
-      }
+    while (!boardCheck()) {
+      gameStart();
     }
-    return valid;
   }
 
   function designGameBoard() {
-    for (var i = 0; i <= boardLength; i += 1){
+    gameBoard = [];
+    for (var i = 0; i < boardLength; i += 1){
       gameBoard.push([]);
     }
+    //gameBoard => [[], [], []]
+  }
+
+  function validNumbers() {
+    possibleNums = [];
+    for (var i = 1; i <= boardLength; i += 1){
+      possibleNums.push(i);
+    }
+  }
+
+  function resetPriorTile(priorVal, priorRow, priorCol) {
+    validNumbers();
+    possibleNums.splice(possibleNums.indexOf(priorVal), 1);
+    var tileVal = setTile(priorRow, priorCol);
+    if (tileVal) {
+      return tileVal;
+    } else {
+      return false;
+    }
+  }
+
+  function setBoard() {
+    var priorTileRow = 0, priorTileCol = 0, currentVal, priorVal;
+    validNumbers();
+    for (var row = 0; row < boardLength; row += 1) {
+      for (var col = 0; col < boardLength; col += 1) {
+        currentVal = setTile(row, col);
+        if (!currentVal) {
+          priorVal = resetPriorTile(priorVal, priorTileRow, priorTileCol);
+          if (priorVal) {
+            validNumbers();
+            currentVal = setTile(row, col);
+          } else {
+            return gameStart();
+          }
+        } else {
+          priorTileRow = row;
+          priorTileCol = col;
+          priorVal = currentVal;
+          validNumbers();
+        }
+      }
+    }
+  }
+
+  //returns false or set tile value:
+  function setTile(row, col)  {
+    var tileSet = false;
+    var num = possibleNums[randomNumIndex()];
+    while (possibleNums.length > 0) {
+      if (validPlacement(num, row, col)) {
+        gameBoard[row][col] = num;
+        tileSet = num;
+        return tileSet;
+      } else {
+        possibleNums.splice(possibleNums.indexOf(num), 1);
+        num = possibleNums[randomNumIndex()];
+      }
+    }
+    return tileSet;
   }
 
   function randomNumIndex(){
@@ -30,102 +93,24 @@ window.onload = function(){
     return numIndex;
   }
 
-  function populateGameBoard() {
-    gameBoard = [];
-    designGameBoard();
+  function validPlacement(num, row, col) {
     for (var i = 0; i < boardLength; i += 1) {
-      //if the row does not get set correctly, try setting it again:
-      var rowSet = false;
-      rowSet = populateGameRow(i);
-      var counter = 0;
-      while (!rowSet) {
-        if (counter > 100) {
-          // console.log('counter: ', counter);
-          break;
-        }
-        //console.log('resetting row i:', i);
-        // console.log('gameBoard[0]: ', gameBoard[0]);
-        // console.log('gameBoard[1]: ', gameBoard[1]);
-        // console.log('gameBoard[2]: ', gameBoard[2]);
-        // console.log('gameBoard[3]: ', gameBoard[3]);
-        rowSet = populateGameRow(i);
-        counter += 1;
+      if (gameBoard[row][i] === num || gameBoard[i][col] === num) {
+        return false;
       }
     }
-    //console.log('gameBoard: ', gameBoard);
-  }
-
-  // //populate numbers that are not already contained in the column:
-  function populatePossibleNums(rowIndex, colIndex) {
-    possibleNums = [];
-    for (var i = 1; i <= boardLength; i += 1){
-      possibleNums.push(i);
-    }
-    //go through every number in column and if it contains in possibleNums, delete it:
-    var deleteNumIndex;
-    var deletedNum;
-    for (var j = 0; j <= boardLength; j += 1){
-      if (possibleNums.includes(gameBoard[j][colIndex])) {
-        deleteNumIndex = possibleNums.indexOf(gameBoard[j][colIndex]);
-        deletedNum = possibleNums.splice(deleteNumIndex, 1);
-        console.log('deletedNum: ', deletedNum);
-      }
-      if (possibleNums.includes(gameBoard[rowIndex][j])) {
-        deleteNumIndex = possibleNums.indexOf(gameBoard[rowIndex][j]);
-        deletedNum = possibleNums.splice(deleteNumIndex, 1);
-        console.log('deletedNum: ', deletedNum);
-      }
-    }
-    console.log('possibleNums: ', possibleNums);
-  }
-
-  function populateGameRow(rowIndex) {
-    // populatePossibleNums(rowIndex);
-    var numToPlace, numToPlaceIndex, placed = false, placementAttempts = 0, rowSet = false;
-    for (var colIndex = 0; colIndex < boardLength; colIndex += 1){
-      populatePossibleNums(rowIndex, colIndex);
-      //console.log('gameBoard: ', gameBoard);
-      console.log('setting row: ', rowIndex);
-      console.log('setting col: ', colIndex);
-      //console.log('setting tile: ', gameBoard[rowIndex][colIndex]);
-      //console.log('possibleNums: ', possibleNums);
-      numToPlaceIndex = randomNumIndex();
-      numToPlace = possibleNums[numToPlaceIndex];
-
-      while (!placed) {
-        placementAttempts += 1;
-        if (validPlacement(numToPlace, rowIndex, colIndex)) {
-          gameBoard[rowIndex][colIndex] = numToPlace;
-          //possibleNums.splice(numToPlaceIndex, 1);
-          placed = true;
-        }
-        else {
-          if (placementAttempts > 15) {
-            return rowSet;
-          } else {
-            possibleNums.splice(numToPlaceIndex, 1);
-            numToPlaceIndex = randomNumIndex();
-            numToPlace = possibleNums[numToPlaceIndex];
-          }
-        }
-      }
-      populatePossibleNums(rowIndex, colIndex);
-      placed = false;
-    }
-    if (gameBoard[rowIndex][boardLength - 1]) {
-      rowSet = true;
-    }
-    return rowSet;
+    return true;
   }
 
   function drawBoard(){
+    var boardContainer = document.querySelector('.board-flex-container');
+    boardContainer.innerHTML = '';
     for (var i = 0; i < boardLength; i += 1){
       drawRow(i, gameBoard);
     }
   }
 
   function drawRow(rowNum, gameBoard) {
-    //var row = document.querySelector('.row' + rowNum);
     var boardContainer = document.querySelector('.board-flex-container');
     for (var i = 0; i < boardLength; i += 1) {
       var row = document.createElement('div');
@@ -139,6 +124,15 @@ window.onload = function(){
       tile.classList.add('tile');
       row.appendChild(tile);
     }
+  }
+
+  function boardCheck() {
+    for (var i = 0; i < gameBoard.length; i += 1) {
+      if (gameBoard[i].includes(undefined)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   gameStart();
