@@ -6,10 +6,13 @@
 //reset prior tile but first remove that popped number from its valid moves
 //so first set tile [0,0], then tile [0,1], etc
 
-window.onload = function(){
+//window.onload = function(){
+$(document).ready(function() {
   var possibleNums = [];
-  var boardLength = 5;
+  var boardLength = 4;
   var gameBoard = [];
+
+
 
   function gameStart() {
     designGameBoard();
@@ -103,26 +106,36 @@ window.onload = function(){
   }
 
   function drawBoard(){
-    var boardContainer = document.querySelector('.board-flex-container');
-    boardContainer.innerHTML = '';
+    //var boardContainer = document.querySelector('.board-flex-container');
+    var $boardContainer = $('.board-flex-container');
+    //boardContainer.innerHTML = '';
+    $boardContainer.html('');
     for (var i = 0; i < boardLength; i += 1){
       drawRow(i, gameBoard);
     }
   }
 
   function drawRow(rowNum, gameBoard) {
-    var boardContainer = document.querySelector('.board-flex-container');
+    //var boardContainer = document.querySelector('.board-flex-container');
+    var $boardContainer = $('.board-flex-container');
     for (var i = 0; i < boardLength; i += 1) {
-      var row = document.createElement('div');
-      row.classList.add('row' + i);
-      boardContainer.appendChild(row);
+      //var row = document.createElement('div');
+      var $row = $("<div></div>");
+      //row.classList.add('row' + i);
+      $row.addClass('row' + i);
+      //boardContainer.appendChild(row);
+      $row.appendTo($boardContainer);
     }
 
     for (var j = 0; j < boardLength; j += 1) {
-      var tile = document.createElement('span');
-      tile.innerHTML = gameBoard[rowNum][j];
-      tile.classList.add('tile');
-      row.appendChild(tile);
+      //var tile = document.createElement('span');
+      var $tile = $('<span></span>');
+      //tile.innerHTML = gameBoard[rowNum][j];
+      $tile.html(gameBoard[rowNum][j]);
+      //tile.classList.add('tile');
+      $tile.addClass('tile');
+      //row.appendChild(tile);
+      $tile.appendTo($row);
     }
   }
 
@@ -136,4 +149,5 @@ window.onload = function(){
   }
 
   gameStart();
-}
+//}
+});

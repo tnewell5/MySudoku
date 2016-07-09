@@ -6,16 +6,22 @@
     <title></title>
   </head>
   <body>
-    <h1>My Sudoku</h1>
+    <h1>Mini Sudoku</h1>
+    <br>
+    <label>Choose Your Board Size:
+      <select name="select">
+        <option value="3x3">3 x 3</option>
+        <option value="4x4" selected>4 x 4</option>
+        <option value="5x5">5 x 5</option>
+      </select>
+    </label>
+    <button id='submit-btn' type="submit" name="button">Let's Play!</button>
+    <br><br>
     <div class='board-flex-container'>
-      <!-- <div class='row0'></div>
-      <div class='row1'></div>
-      <div class='row2'></div> -->
-
     </div>
-
-
-
+    <script type="text/javascript"
+      src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js">
+    </script>
     <script src="main.js"></script>
   </body>
 </html>
