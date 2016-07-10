@@ -8,7 +8,6 @@
 
 $(document).ready(function() {
   var possibleNums = [];
-  //var boardLength = 4;
   var boardLength;
   var gameBoard = [];
 
@@ -27,6 +26,26 @@ $(document).ready(function() {
       while (!boardCheck()) {
         gameStart();
       }
+      revealBoard();
+    }
+
+    function revealBoard() {
+      //reveal half the tiles
+      var tilesToRevealCount = boardLength * boardLength / 2;
+      var tileId, randRow, randCol;
+      for (var i = 0; i < tilesToRevealCount; i += 1) {
+        randRow = randomNum();
+        randCol = randomNum();
+        tileId = '#row' + randRow + 'col' + randCol;
+        $(tileId).addClass('reveal');
+      }
+
+
+    }
+
+    function randomNum(){
+      var num;
+      return num = Math.floor(Math.random() * (boardLength));
     }
 
     function designGameBoard(boardLength) {
@@ -123,14 +142,16 @@ $(document).ready(function() {
       var $boardContainer = $('.board-flex-container');
       for (var i = 0; i < boardLength; i += 1) {
         var $row = $("<div></div>");
-        $row.addClass('row' + i);
+        //$row.addClass('row' + i);
         $row.appendTo($boardContainer);
       }
 
       for (var j = 0; j < boardLength; j += 1) {
         var $tile = $('<span></span>');
         $tile.html(gameBoard[rowNum][j]);
+        $tile.addClass('hidden');
         $tile.addClass('tile');
+        $tile.attr('id', 'row' + rowNum + 'col' + j);
         $tile.appendTo($row);
       }
     }
@@ -144,5 +165,4 @@ $(document).ready(function() {
       return true;
     }
   });
-  // gameStart();
 });
