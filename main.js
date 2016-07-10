@@ -26,11 +26,11 @@ $(document).ready(function() {
       while (!boardCheck()) {
         gameStart();
       }
-      revealBoard();
+      revealHalfBoard();
+      userMoves();
     }
 
-    function revealBoard() {
-      //reveal half the tiles
+    function revealHalfBoard() {
       var tilesToRevealCount = boardLength * boardLength / 2;
       var tileId, randRow, randCol;
       for (var i = 0; i < tilesToRevealCount; i += 1) {
@@ -38,9 +38,8 @@ $(document).ready(function() {
         randCol = randomNum();
         tileId = '#row' + randRow + 'col' + randCol;
         $(tileId).addClass('reveal');
+        $(tileId).attr("disabled", "true");
       }
-
-
     }
 
     function randomNum(){
@@ -48,12 +47,31 @@ $(document).ready(function() {
       return num = Math.floor(Math.random() * (boardLength));
     }
 
+    function userMoves() {
+      //$('.board-flex-container').click(function() {
+      $('.board-flex-container').change(function(event) {
+        console.log('tile updated!');
+        //console.log(event.target.id);
+        console.log("event.target.placeholder", event.target.placeholder);
+        console.log(event.target.value);
+        if (event.target.placeholder === event.target.value) {
+          $(event.target).addClass('reveal').attr("disabled", "true");
+        }
+        else {
+          $(event.target).addClass('animated flash');
+          window.setTimeout(function removeFlash() {
+            $(event.target).removeClass('animated flash');
+            $(event.target).val('');
+          }, 1500);
+        }
+      });
+    }
+
     function designGameBoard(boardLength) {
       gameBoard = [];
       for (var i = 0; i < boardLength; i += 1){
         gameBoard.push([]);
       }
-      //gameBoard => [[], [], []]
     }
 
     function validNumbers() {
@@ -98,7 +116,6 @@ $(document).ready(function() {
       }
     }
 
-    //returns false or set tile value:
     function setTile(row, col)  {
       var tileSet = false;
       var num = possibleNums[randomNumIndex()];
@@ -147,8 +164,12 @@ $(document).ready(function() {
       }
 
       for (var j = 0; j < boardLength; j += 1) {
-        var $tile = $('<span></span>');
-        $tile.html(gameBoard[rowNum][j]);
+        // var $tile = $('<span></span>');
+        var $tile = $('<input></input>');
+        //$tile.html(gameBoard[rowNum][j]);
+        //$(this).attr("placeholder", "Type your answer here");
+        //$tile.val(gameBoard[rowNum][j]);
+        $tile.attr("placeholder", gameBoard[rowNum][j]);
         $tile.addClass('hidden');
         $tile.addClass('tile');
         $tile.attr('id', 'row' + rowNum + 'col' + j);

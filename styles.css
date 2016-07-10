@@ -18,10 +18,18 @@ body {
 
 .hidden {
   background-color: gray;
+  /*color: gray;*/
+}
+
+::-webkit-input-placeholder {
   color: gray;
 }
 
 .reveal {
   background-color: white;
-  color: black;
+  color: gray;
+}
+
+.flash {
+  background-color: red;
 }
