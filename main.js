@@ -48,23 +48,35 @@ $(document).ready(function() {
     }
 
     function userMoves() {
-      //$('.board-flex-container').click(function() {
+      console.log('entered userMoves');
+      var wrongMoves = 0;
+
       $('.board-flex-container').change(function(event) {
-        console.log('tile updated!');
-        //console.log(event.target.id);
-        console.log("event.target.placeholder", event.target.placeholder);
-        console.log(event.target.value);
+        // console.log('tile updated!');
+        // console.log("event.target.placeholder", event.target.placeholder);
+        // console.log(event.target.value);
         if (event.target.placeholder === event.target.value) {
           $(event.target).addClass('reveal').attr("disabled", "true");
         }
         else {
+          wrongMoves += 1;
+          console.log('wrongMoves: ', wrongMoves);
           $(event.target).addClass('animated flash');
           window.setTimeout(function removeFlash() {
             $(event.target).removeClass('animated flash');
             $(event.target).val('');
           }, 1500);
         }
+        if (wrongMoves >= 3) {
+          return gameOver();
+        }
       });
+      console.log('leaving userMoves');
+    }
+
+    function gameOver() {
+      console.log('GAME OVER!');
+      
     }
 
     function designGameBoard(boardLength) {
@@ -159,16 +171,11 @@ $(document).ready(function() {
       var $boardContainer = $('.board-flex-container');
       for (var i = 0; i < boardLength; i += 1) {
         var $row = $("<div></div>");
-        //$row.addClass('row' + i);
         $row.appendTo($boardContainer);
       }
 
       for (var j = 0; j < boardLength; j += 1) {
-        // var $tile = $('<span></span>');
         var $tile = $('<input></input>');
-        //$tile.html(gameBoard[rowNum][j]);
-        //$(this).attr("placeholder", "Type your answer here");
-        //$tile.val(gameBoard[rowNum][j]);
         $tile.attr("placeholder", gameBoard[rowNum][j]);
         $tile.addClass('hidden');
         $tile.addClass('tile');
