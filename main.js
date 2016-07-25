@@ -76,7 +76,9 @@ $(document).ready(function() {
 
     function gameOver() {
       console.log('GAME OVER!');
-      
+      $('#game').html("<div id='game-over' class='animated swing'>Game Over!</div>");
+      $('body').css('background-color', 'darkgray');
+
     }
 
     function designGameBoard(boardLength) {

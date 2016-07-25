@@ -7,18 +7,20 @@
     <title></title>
   </head>
   <body>
-    <h1>Mini Sudoku</h1>
+    <h2>Mini Sudoku</h2>
     <br>
-    <label>Choose Your Board Size:
-      <select class="board-options" name="select">
-        <option value="3">3 x 3</option>
-        <option value="4" selected>4 x 4</option>
-        <option value="5">5 x 5</option>
-      </select>
-    </label>
-    <button id='submit-btn' type="submit" name="button">Let's Play!</button>
-    <br><br>
-    <div class='board-flex-container'>
+    <div id='game'>
+      <label>Choose Your Board Size:
+        <select class="board-options" name="select">
+          <option value="3">3 x 3</option>
+          <option value="4" selected>4 x 4</option>
+          <option value="5">5 x 5</option>
+        </select>
+      </label>
+      <button id='submit-btn' type="submit" name="button">Let's Play!</button>
+      <br><br>
+      <div class='board-flex-container'>
+      </div>
     </div>
     <script type="text/javascript"
       src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js">
