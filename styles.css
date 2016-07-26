@@ -1,7 +1,12 @@
 body {
-  background: lightblue;
+  background: linear-gradient(lightyellow, darkblue);
+  /*background: lightblue;*/
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   text-align: center;
   padding-top: 10%;
+  height: 100%;
+  width: 100%;
 }
 
 h2 {
