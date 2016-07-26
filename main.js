@@ -16,6 +16,7 @@ $(document).ready(function() {
     var $userBoardSelection = parseInt($("select").val());
     boardLength = $userBoardSelection;
     console.log('$userBoardSelection: ', $userBoardSelection);
+    $('#game-options').hide();
 
     gameStart();
 
