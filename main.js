@@ -53,9 +53,7 @@ $(document).ready(function() {
       var wrongMoves = 0;
 
       $('.board-flex-container').change(function(event) {
-        // console.log('tile updated!');
-        // console.log("event.target.placeholder", event.target.placeholder);
-        // console.log(event.target.value);
+        var allTilesRevealed = false;
         if (event.target.placeholder === event.target.value) {
           $(event.target).addClass('reveal').attr("disabled", "true");
         }
@@ -68,7 +66,12 @@ $(document).ready(function() {
             $(event.target).val('');
           }, 1500);
         }
-        if (wrongMoves >= 3) {
+
+        var $revealedTiles = $('.reveal').length;
+        console.log('$revealedTiles: ', $revealedTiles);
+        if ($revealedTiles === boardLength * boardLength) {
+          return playerWon();
+        } else if (wrongMoves >= 3) {
           return gameOver();
         }
       });
@@ -79,7 +82,10 @@ $(document).ready(function() {
       console.log('GAME OVER!');
       $('#game').html("<div id='game-over' class='animated swing'>Game Over!</div>");
       $('body').css('background-color', 'darkgray');
+    }
 
+    function playerWon() {
+      console.log('player won!');
     }
 
     function designGameBoard(boardLength) {
