@@ -86,6 +86,8 @@ $(document).ready(function() {
 
     function playerWon() {
       console.log('player won!');
+      $('#game').html("<div id='game-over' class='animated tada infinite'>You Win!!!</div>");
+      $('body').css('background-color', 'lightpink');
     }
 
     function designGameBoard(boardLength) {
