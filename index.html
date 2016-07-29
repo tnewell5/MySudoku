@@ -9,7 +9,7 @@
   <body>
     <h2>Mini Sudoku</h2>
     <br>
-    <div id='game'>
+    <div id='game' class='hidden'>
       <div id='game-options'>
         <label>Choose Your Board Size:
           <select class="board-options" name="select">
@@ -23,6 +23,10 @@
       <br><br>
       <div class='board-flex-container'>
       </div>
+    </div>
+    <div id='game-over' class='hidden'>
+      <div class='animated swing'>Game Over!</div><br>
+      <!-- <button id='restart-game'>Play Again!</button> -->
     </div>
     <script type="text/javascript"
       src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js">

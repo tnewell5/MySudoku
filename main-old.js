@@ -32,7 +32,6 @@ var possibleNums = [];
     gameBoard = [];
     designGameBoard();
     for (var i = 0; i < colLength; i += 1) {
-      //if the row does not get set correctly, try setting it again:
       var rowSet = false;
       rowSet = populateGameRow(i);
       var counter = 0;
@@ -103,7 +102,6 @@ var possibleNums = [];
   }
 
   function drawRow(rowNum, gameBoard) {
-    //var row = document.querySelector('.row' + rowNum);
     var boardContainer = document.querySelector('.board-flex-container');
     for (var i = 0; i < rowLength; i += 1) {
       var row = document.createElement('div');

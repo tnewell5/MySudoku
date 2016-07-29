@@ -1,6 +1,8 @@
 body {
   background: linear-gradient(lightyellow, darkblue);
-  /*background: lightblue;*/
+  background: -moz-linear-gradient(lightyellow, darkblue);
+  background: -o-linear-gradient(lightyellow, darkblue);
+  background: -webkit-linear-gradient(lightyellow, darkblue);
   background-repeat: no-repeat;
   background-attachment: fixed;
   text-align: center;
@@ -9,14 +11,9 @@ body {
   width: 100%;
 }
 
-h2 {
-  /*text-align: center;*/
-}
-
 .board-flex-container {
   display: flex;
   flex-direction: column;
-  /*border: 1px solid black;*/
 }
 
 .tile {
@@ -27,9 +24,12 @@ h2 {
   text-align: center;
 }
 
-.hidden {
+.gray {
   background-color: gray;
-  /*color: gray;*/
+}
+
+.red {
+  background-color: darkred;
 }
 
 ::-webkit-input-placeholder {
@@ -47,4 +47,8 @@ h2 {
 
 #game-over {
   font-size: 40px;
+}
+
+.hidden {
+  display: none;
 }
